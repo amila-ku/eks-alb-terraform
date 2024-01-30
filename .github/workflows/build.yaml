@@ -2,7 +2,8 @@ name: Publish to ECR & Deploy to EKS
 
 on:
   push:
-    branches: [ master ]
+    branches:
+      - main
 
 env:
   ECR_REPOSITORY: nitro-app

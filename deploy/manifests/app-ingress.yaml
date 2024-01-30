@@ -1,0 +1,18 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: "nitro-ingress"
+  namespace: "default"
+  annotations:
+    kubernetes.io/ingress.class: alb
+  labels:
+    app: nitro-app
+spec:
+  rules:
+    - host: cloudnativestories.dev
+      http:
+        paths:
+          - path: /*
+            backend:
+              serviceName: "nitro-app-service"
+              servicePort: 8080

@@ -1,1 +1,6 @@
 *.pdf
+deploy/oinfra
+validation/report.html
+.terraform
+.terraform.lock.hcl
+*.tfstate

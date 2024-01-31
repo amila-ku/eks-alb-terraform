@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 env:
   ECR_REPOSITORY: nitro-app
@@ -29,6 +32,10 @@ jobs:
       run: |
         go test -v -cover ./...
 
+    # - name: test in container
+    #   run: |
+    #     docker build  -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG --progress plain --no-cache --target run-test-stage .
+
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v4
       with:
@@ -51,11 +58,12 @@ jobs:
     - name: Update kube config
       run: aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
 
-    - name: Deploy to EKS
+    - name: Deploy to EKS to DEV
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
         IMAGE_TAG: ${{ github.run_number }}
       run: |
+        sed -i.bak "s|ENV|Dev|g" deploy/manifests/app-deploy.yaml
         sed -i.bak "s|HTTPPORT|$HTTP_PORT|g" deploy/manifests/app-deploy.yaml
         sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deploy/manifests/app-deploy.yaml && \
         kubectl apply -f deploy/manifests/app-deploy.yaml
@@ -65,3 +73,15 @@ jobs:
     # - name: Call endpoint with curl
     #   run: |
     #     curl -X GET "https://example.com/hello"
+
+    # - name: Deploy to EKS to PROD
+    #   env:
+    #     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}        
+    #     IMAGE_TAG: ${{ github.run_number }}
+    #   run: |
+    #     sed -i.bak "s|ENV|PROD|g" deploy/manifests/app-deploy.yaml
+    #     sed -i.bak "s|HTTPPORT|$HTTP_PORT|g" deploy/manifests/app-deploy.yaml
+    #     sed -i.bak "s|DOCKER_IMAGE|$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG|g" deploy/manifests/app-deploy.yaml && \
+    #     kubectl apply -f deploy/manifests/app-deploy.yaml
+    #     kubectl apply -f deploy/manifests/app-service.yaml
+    #     kubectl apply -f deploy/manifests/app-ingress.yaml

@@ -12,6 +12,10 @@ COPY *.go ./
 # Build
 RUN CGO_ENABLED=0 GOOS=linux go build -o /myapp
 
+# Run the tests in the container
+FROM build AS run-test-stage
+RUN go test -v -cover ./...
+
 FROM gcr.io/distroless/base-debian11
 COPY --from=build --chmod=764 /myapp /
 # 55679 - zpages

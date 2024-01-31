@@ -24,6 +24,8 @@ spec:
         env:
         - name: HTTP_PORT
           value: "HTTPPORT"
+        - name: ENVIRONMENT
+          value: "ENV"
         ports:
         - containerPort: HTTPPORT
   strategy:

@@ -7,7 +7,7 @@ on:
 
 env:
   ECR_REPOSITORY: nitro-app
-  EKS_CLUSTER_NAME: nitro
+  EKS_CLUSTER_NAME: nitro-dev
   AWS_REGION: eu-west-1
   HTTP_PORT: '8080'
 
@@ -61,3 +61,7 @@ jobs:
         kubectl apply -f deploy/manifests/app-deploy.yaml
         kubectl apply -f deploy/manifests/app-service.yaml
         kubectl apply -f deploy/manifests/app-ingress.yaml
+
+    # - name: Call endpoint with curl
+    #   run: |
+    #     curl -X GET "https://example.com/hello"

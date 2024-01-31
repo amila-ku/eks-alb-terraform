@@ -9,7 +9,7 @@ env:
   ECR_REPOSITORY: nitro-app
   EKS_CLUSTER_NAME: nitro
   AWS_REGION: eu-west-1
-  HTTP_PORT: 8080
+  HTTP_PORT: '8080'
 
 jobs:
   build:

@@ -21,8 +21,11 @@ spec:
       - name: nitro-app
         image: DOCKER_IMAGE
         imagePullPolicy: Always
+        env:
+        - name: HTTP_PORT
+          value: HTTPPORT
         ports:
-        - containerPort: 8080
+        - containerPort: HTTPPORT
   strategy:
     type: RollingUpdate
     rollingUpdate:

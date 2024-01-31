@@ -23,7 +23,7 @@ spec:
         imagePullPolicy: Always
         env:
         - name: HTTP_PORT
-          value: HTTPPORT
+          value: "HTTPPORT"
         ports:
         - containerPort: HTTPPORT
   strategy:

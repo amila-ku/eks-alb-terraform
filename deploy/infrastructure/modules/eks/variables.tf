@@ -38,10 +38,20 @@ variable "private_subnets" {
 # Variables defined using Environment Variables
 ################################################################################
 
-variable "rolearn" {
-  description = "Add admin role to the aws-auth configmap"
+variable "users" {
+  description = "List of role maps to add to the aws-auth configmap"
+  type        = list(object({
+    userarn  = string
+    username  = string
+  }))
+  default     = []
 }
 
-variable "user" {
-  description = "Add admin user to the aws-auth configmap"
+variable "roles" {
+  description = "List of user maps to add to the aws-auth configmap"
+  type        = list(object({
+    userarn  = string
+    username  = string
+  }))
+  default     = []
 }

@@ -84,23 +84,19 @@ module "eks" {
   #create_aws_auth_configmap = true
 
   aws_auth_roles = [
-    {
-      rolearn  = var.rolearn
-      username = var.user
+    for user in var.roles : {
+      userarn  = user.userarn
+      username = user.username
       groups   = ["system:masters"]
-    },
+    }
   ]
+
   aws_auth_users = [
-    {
-        userarn  = "arn:aws:iam::845614672576:user/amilak"
-        username = "amilak"
-        groups   = ["system:masters"]
-    },
-    {
-        userarn  = "arn:aws:iam::845614672576:user/githubactions"
-        username = "githubactions"
-        groups   = ["system:masters"]
-    },
+    for user in var.users : {
+      userarn  = user.userarn
+      username = user.username
+      groups   = ["system:masters"]
+    }
   ]
 
   tags = local.tags

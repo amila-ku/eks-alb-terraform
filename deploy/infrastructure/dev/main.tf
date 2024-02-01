@@ -20,11 +20,10 @@ module "eks" {
   cluster_name = var.name
   region = var.region
   eks_version = var.eks_version
-  rolearn = "arn:aws:iam::845614672576:role/aws-service-role/eks.amazonaws.com/AWSServiceRoleForAmazonEKS"
-  user = "AWSServiceRoleForAmazonEKS"
   environment = var.environment
-#   profile     = var.profile
-#   rolearn     = var.rolearn
+
+  roles = var.eks_roles
+  users = var.eks_users
 
   vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets

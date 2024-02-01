@@ -4,3 +4,4 @@ validation/report.html
 .terraform
 .terraform.lock.hcl
 *.tfstate
+terraform.tfvars

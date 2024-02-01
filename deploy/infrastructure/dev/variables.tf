@@ -24,3 +24,32 @@ variable "owner" {
   type        = string
   default = "platform"
 }
+
+# variable "rolearn" {
+#   description = "role arn to access EKS"
+#   type        = string
+# }
+
+# variable "rolename" {
+#   description = "role name to access EKS"
+#   type        = string
+# }
+
+variable "eks_users" {
+  description = "List of role maps to add to the aws-auth configmap"
+  type        = list(object({
+    userarn  = string
+    username  = string
+  }))
+  default     = []
+}
+
+variable "eks_roles" {
+  description = "List of user maps to add to the aws-auth configmap"
+  type        = list(object({
+    userarn  = string
+    username  = string
+  }))
+  default     = []
+}
+

@@ -27,6 +27,13 @@ This depends on AWS EKS cluster, so EKS cluster should be deployed first or shou
 ### Deploy EKS cluster with terraform
 Change to the deploy/infrastructure/dev directory. Update cluster name, environement or other variables according to what you want to set.
 
+set AWS profile to use.
+
+```
+export AWS_PROFILE=terraformuser
+```
+
+Execute terrafrom.
 ```
 terraform init
 terraform plan

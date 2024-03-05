@@ -33,6 +33,11 @@ variable "private_subnets" {
   type        = list(any)
 }
 
+variable "vpc_cidr_block" {
+  description = "VPC CIDR for which EKS cluster is deployed in"
+  type        = string
+}
+
 
 ################################################################################
 # Variables defined using Environment Variables

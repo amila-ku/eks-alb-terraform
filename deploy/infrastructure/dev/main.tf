@@ -7,7 +7,6 @@ module "vpc" {
   name = var.name
   region = var.region
   environment = var.environment
-#   profile     = var.profile
 }
 
 ################################################################################
@@ -27,4 +26,5 @@ module "eks" {
 
   vpc_id          = module.vpc.vpc_id
   private_subnets = module.vpc.private_subnets
+  vpc_cidr_block  = module.vpc.vpc_cidr_blocks
 }

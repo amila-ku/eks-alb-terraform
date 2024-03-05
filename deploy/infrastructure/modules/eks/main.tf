@@ -6,6 +6,7 @@ locals {
   name            = "${var.cluster_name}-${var.environment}"
   cluster_version = var.eks_version
   region          = var.region
+  vpc_cidr_block  = var.vpc_cidr_block
 
   tags = {
     Name    = local.name
@@ -47,7 +48,7 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_group_defaults = {
-    instance_types = ["t3.large", "t3.medium", "t3.small"]
+    instance_types = ["t3.micro", "t3.small", "t3.medium"]
     iam_role_additional_policies = {
       AmazonEBSCSIDriverPolicy = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
     }
@@ -74,7 +75,7 @@ module "eks" {
         max_size     = 10
         desired_size = 1
 
-        instance_types = ["t3.medium"]
+        instance_types = ["t3.medium", "t3.small", "t3.large" ]
         capacity_type  = "SPOT"
     }
   }
@@ -150,4 +151,34 @@ module "aws_alb_controller" {
 
   vpc_id            = var.vpc_id
   oidc_provider_arn = module.eks.oidc_provider_arn
+}
+
+################################################################################
+# VPC Endpoints Module
+################################################################################
+
+module "vpc_endpoints" {
+  source = "terraform-aws-modules/vpc/aws//modules/vpc-endpoints"
+
+  vpc_id = var.vpc_id
+
+  create_security_group      = true
+  security_group_name_prefix = "${local.name}-vpc-endpoints-"
+  security_group_description = "VPC endpoint security group"
+  security_group_rules = {
+    ingress_https = {
+      description = "HTTPS from VPC"
+      cidr_blocks = [local.vpc_cidr_block]
+    }
+  }
+
+  endpoints = {
+    sts = {
+      service             = "sts"
+      private_dns_enabled = true
+      subnet_ids          = var.private_subnets
+      tags = { Name = "sts-vpc-endpoint" }
+    }
+  }
+
 }

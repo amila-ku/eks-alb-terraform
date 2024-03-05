@@ -16,9 +16,10 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o /myapp
 FROM build AS run-test-stage
 RUN go test -v -cover ./...
 
+# Final lean image
 FROM gcr.io/distroless/base-debian11
 COPY --from=build --chmod=764 /myapp /
-# 55679 - zpages
+
 EXPOSE 8080/tcp
 
 CMD ["/myapp"]

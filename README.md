@@ -1,8 +1,4 @@
-# EKS cluster with ALB & App deployment
-
-Requirements listed in [TODO.md](https://github.com/amila-ku/nitro-challenge/blob/main/TODO.md)
-
-# Implementation
+# EKS cluster with ALB & App deployment implementation
 
 This repository contains configurations to containerize the application, ci/cd pipeline and infrastructure as code for the application.
 

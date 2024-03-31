@@ -1,4 +1,4 @@
-# Nitro challenge: EKS cluster & App deployment
+# EKS cluster with ALB & App deployment
 
 Requirements listed in [TODO.md](https://github.com/amila-ku/nitro-challenge/blob/main/TODO.md)
 
